@@ -1,0 +1,36 @@
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from time import sleep
+
+# Leitura do arquivo Excel
+df = pd.read_excel('nomes_telefones.xlsx')
+
+# Número de telefone para enviar a mensagem
+numero = '5511987654321'  # Insira o número desejado, incluindo o código do país (nesse exemplo, o número é do Brasil)
+
+# Inicialização do navegador e acesso ao WhatsApp Web
+driver = webdriver.Chrome()  # Insira o caminho para o seu driver do navegador
+driver.get('https://web.whatsapp.com/')
+input('Faça o login no WhatsApp Web e pressione Enter para continuar...')
+
+# Envio da mensagem
+for i in range(len(df)):
+    nome = df.iloc[i]['nome']
+    telefone = str(df.iloc[i]['telefone'])
+
+    # Abre a janela de chat do número de telefone especificado
+    driver.get(f'https://web.whatsapp.com/send?phone={numero}')
+
+    # Aguarda a janela ser carregada e a mensagem ser digitada
+    sleep(5)
+    mensagem = f'Olá {nome}, esta é uma mensagem de teste enviada pelo Python!'
+    mensagem_input = driver.find_element_by_xpath('//div[@contenteditable="true"][@data-tab="6"]')
+    mensagem_input.send_keys(mensagem)
+
+    # Envio da mensagem
+    mensagem_input.send_keys(Keys.ENTER)
+    print(f'Mensagem enviada para {nome} ({telefone})')
+
+# Encerramento do navegador
+driver.quit()
