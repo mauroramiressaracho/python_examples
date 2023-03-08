@@ -1,0 +1,27 @@
+# User este comando para instalar a biblioteca
+# pip install google_images_download
+
+from google_images_download import google_images_download
+
+# Crie um objeto para download de imagens
+download = google_images_download.googleimagesdownload()
+
+# Defina as opções de download
+keywords = 'pássaro azul'  # consulta de busca de imagem
+limit = 10  # número de imagens para baixar
+formato = 'jpg'  # formato das imagens
+output_directory = 'imagens'  # diretório de saída
+
+# Configure as opções de download
+arguments = {
+    'keywords': keywords,
+    'limit': limit,
+    'format': formato,
+    'output_directory': output_directory
+}
+
+# Execute o download
+paths = download.download(arguments)
+
+# Imprima os caminhos das imagens baixadas
+print(paths)
